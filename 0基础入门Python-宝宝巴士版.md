@@ -20,7 +20,9 @@ VS Code配置Python环境
 >
 > PS E:\Python编程 从入门到实践> (D:\Anaconda\shell\condabin\conda-hook.ps1) ; (conda activate streamlit) 
 >
-> >>>>>>>>>>>>>>>>>>>>>> ERROR REPORT <<<<<<<<<<<<<<<<<<<<<< Traceback (most recent call last): File "D:\Anaconda\Lib\site-packages\conda\exception_handler.py", line 16, in __call__ return func(*args, **kwargs) ^^^^^^^^^^^^^^^^^^^^^ File "D:\Anaconda\Lib\site-packages\conda\cli\main.py", line 111, in main_sourced print(activator.execute(), end="") UnicodeEncodeError: 'gbk' codec can't encode character '\u202a' in position 410: illegal multibyte sequence
+> >>>>>>>>>>>>>>>>>>>>>> ERROR REPORT <<<<<<<<<<<<<<<<<<<<<<
+>
+>  Traceback (most recent call last): File "D:\Anaconda\Lib\site-packages\conda\exception_handler.py", line 16, in __call__ return func(*args, **kwargs) ^^^^^^^^^^^^^^^^^^^^^ File "D:\Anaconda\Lib\site-packages\conda\cli\main.py", line 111, in main_sourced print(activator.execute(), end="") UnicodeEncodeError: 'gbk' codec can't encode character '\u202a' in position 410: illegal multibyte sequence
 
 因为系统环境变量被Unicode控制字符污染 可能是之前复制网页中的系统路径时无意中带入
 
@@ -97,3 +99,257 @@ print(mesage)
 #### 字符串
 
 **字符串**（string）就是⼀系列字符。在Python 中，用引号引起的都是字符串（可以是单引号也可以是双引号）
+
+**比较复杂的字符串**
+
+```python
+text = '''老师说："今天的作业主题是'Python 的字符串处理'，请大家认真完成，并在作业中写明：'我已经理解了双引号"和单引号'的区别'。" '''
+print(text)
+
+#这里采用了三引号 能够实现以下两个功能（一般用不上） PS：中文的“和英文的"是有区别的 
+#1.可以跨行
+#2.里面可以随便放'和"
+
+#如果不想用'''三引号却又想在字符串里用"如何解决？
+#采用转义字符
+message = "The language \"Python\" is named after Monty Python, not the snake."
+print(message)
+输出：The language "Python" is named after Monty Python, not the snake.
+#这里的\"就是告诉解释器不需要扫描匹配"字符直接输出=>也就是\"在解释器看来就是直接输出"
+```
+
+> [!IMPORTANT]
+>
+> 字符串相关操作函数
+>
+> **1.title()函数**
+>
+> ```python
+> # title() 将每个单词的首字母转换为大写
+> name = "tian lin ying"
+> print(name.title())
+> 
+> #输出：Tian Lin Ying
+> ```
+>
+> **2.upper()/lower()函数**
+>
+> ```python
+> # upper()/lower() 将每个单词大写/小写
+> name = "Tian Lin Ying"
+> print(name.upper())
+> print(name.lower())
+> 
+> #输出：TIAN LIN YING
+> tian lin ying
+> ```
+
+##### 在字符串中使用变量
+
+```python
+first_name = "lin ying"
+last_name = "tian"
+fullname = f"{first_name} {last_name}"
+print(fullname)
+
+#输出：lin ying tian
+```
+
+> [!TIP]
+>
+> 要在字符串中插⼊变量的值，可先在左引号前加上字母f，再将要插入的变量放在花括号内。
+>
+> 这种字符串称为**f字符串**（format-设置格式）Python通过把花括号内的变量替换为其值来设置字符串的格式
+>
+> ```python
+> first_name = "lin ying"
+> last_name = "tian"
+> fullname = f"{first_name} {last_name}"
+> print(f"Hello, {fullname.title()}!")
+> 
+> #输出：Hello, Lin Ying Tian!
+> ```
+>
+> 也可以使用**f字符串**来创建消息
+>
+> ```python
+> first_name = "lin ying"
+> last_name = "tian"
+> fullname = f"{first_name} {last_name}"
+> message = f"Hello, {fullname.title()}!"
+> print(message)
+> 
+> #输出：Hello, Lin Ying Tian!
+> 
+> #将消息赋给了一个变量 让最后的函数调用print()简单得多
+> ```
+>
+> **实际案例：**
+>
+> ```python
+> out_name = out_nameitems[attribute_box.currentIndex()]
+> sql_el = textwrap.dedent(f'''
+>     SELECT
+>         '当前表' as 表名,
+>         COUNT(*) as 记录数,
+>         SUM(a.{attribute_box.currentText()}) as {out_name}总数
+>     FROM {textbox_30.text()} a
+>     WHERE a.init_date between 20251001 and 20251031
+>     UNION ALL
+>     SELECT
+>         '历史表' as 表名,
+>         COUNT(*) as 记录数,
+>         SUM(a.{attribute_box.currentText()}) as {out_name}总数
+>     FROM {textbox_20.text()}@uf20_his a
+>     WHERE a.init_date between 20251001 and 20251031
+>     '''
+>                         )
+> out_sql.setPlainText(sql_el)
+> ```
+>
+> 这里的代码有一点复杂 因为涉及到了**pyqt**的知识 可以把**花括号里的内容当作变量** 因为很多部分基本上都差不多的 因此脚本只需要替换变的地方即可=>用**变量**来实现，最后用**f字符串**进行拼接
+
+##### 使用制表符或换行符来添加空白
+
+```python
+#制表符和换行符
+print("Python")
+print("\tPython")
+
+#输出：
+#Python
+#  	 Python
+#\t缩进4个字符
+
+print("Languages:\nPython\nC\nJavaScript")
+
+#输出：
+#Languages:
+#Python
+#C
+#JavaScript
+#\n换行
+
+print("Languages:\n\tPython\n\tC\n\tJavaScript")
+#输出：
+#Languages:
+# 	 Python
+#	 C
+#	 JavaScript
+```
+
+
+
+> [!IMPORTANT]
+>
+> 字符串相关函数
+>
+> **1.rstrip()函数**
+>
+> ```python
+> #rstrip() 删除字符串右端空白
+> favorite_language = ' python ' 
+> print(favorite_language.rstrip())
+> 
+> #输出：（此处为空格）python
+> ```
+>
+> **2.lstrip()函数**
+>
+> ```python
+> #lstrip() 删除字符串左端空白
+> favorite_language = ' python ' 
+> print(favorite_language.lstrip())
+> 
+> #输出：python（此处为空格）
+> ```
+>
+> **3.strip()函数**
+>
+> ```python
+> #strip() 删除字符串两端空白
+> favorite_language = ' python ' 
+> print(favorite_language.strip())
+> 
+> #输出：python
+> ```
+>
+> **4.removeprefix()函数**
+>
+> ```python
+> #removeprefix() 删除前缀
+> nostarch_url = 'https://nostarch.com'
+> simple_url = nostarch_url.removeprefix('https://')
+> print(simple_url)
+> 
+> #输出：nostarch.com
+> ```
+>
+> **5.removesuffix()函数**
+>
+> ```python
+> #removesuffix() 删除后缀
+> filename = "python_notes.txt"
+> print(filename.removesuffix('.txt'))
+> 
+> #输出：python_notes
+> ```
+
+#### 数
+
+> [!TIP]
+>
+> **整数**
+>
+> 加减乘除
+>
+> **表示乘方运算
+>
+> **浮点数**
+>
+> ```python
+> print(0.2 + 0.1)
+> #输出：0.30000000000000004
+> 
+> #结果包含的⼩数位数可能是不确定的 所有编程语言都存在这种问题，没有什么可担心的 后续会讲处理多余小数位的方式
+> ```
+>
+> **整数和浮点数**
+>
+> 1.将任意两个数相除，结果总是浮点数
+>
+> 2.只要有操作数是浮点数，默认得到的就总是浮点数，即便结果原本为整数
+>
+> **数中的下划线**
+>
+> 在书写很⼤的数时，可使用下划线将其中的位分组，使其更清晰易读
+>
+> ```python
+> universe_age = 14_000_000_000
+> print(universe_age) 
+> 
+> #输出：14000000000
+> #在存储这种数时，Python会忽略其中的下划线
+> ```
+>
+> **同时给多个变量赋值**
+>
+> ```python
+> x, y, z = 0, 0, 0 
+> ```
+>
+> **用逗号将变量名分开**；对于要赋给变量的值，也需要做同样的处理。Python将按顺序将每个值赋给对应的变量。只要变量数和值的**个数相同**，Python就能正确地将变量和值**关联起来**。
+>
+> 
+>
+> **常量**
+>
+> Python没有内置的常量类型，但Python程序员会使用全大写字母来指出应将某个变量视为常量
+>
+> ```python
+> MAX_CONNECTIONS = 5000
+> ```
+
+#### 注释
+
+在Python中，注释用井号（#）标识。井号后面的内容都会被Python解释器忽略
