@@ -353,3 +353,267 @@ print("Languages:\n\tPython\n\tC\n\tJavaScript")
 #### 注释
 
 在Python中，注释用井号（#）标识。井号后面的内容都会被Python解释器忽略
+
+------
+
+### 第3章 列表
+
+#### 3.1 列表介绍
+
+列表（list）由一系列按特定顺序排列的元素组成
+
+在Python中，用方括号（[]）表示列表，用逗号分隔其中的元素。
+
+```python
+bicycles = ['trek', 'cannondale', 'redline', 'specialized'] 
+print(bicycles)
+
+#输出：['trek', 'cannondale', 'redline', 'specialized']
+#Python将打印列表的内部表示，包括方括号
+```
+
+> [!TIP]
+>
+> **1.访问列表元素**
+>
+> ```python
+> bicycles = ['trek', 'cannondale', 'redline', 'specialized']
+> print(bicycles[0]) 
+> 
+> #输出：trek
+> #就当C语言的数组用！直接访问下标 不同点是C语言的数组是单一数据类型而列表能放很多种数据类型
+> #例如lists = ['trek', 'cannondale', 'redline', 'specialized', 1]也可行！
+> 
+> #小测试🐨(思考一下这个代码输出的结果是啥)：
+> print(bicycles[0].title()) 
+> ```
+>
+> **2.索引从0而不是1开始**
+>
+> ```python
+> bicycles = ['trek', 'cannondale', 'redline', 'specialized'] 
+> print(bicycles[1]) 
+> print(bicycles[3])
+> 
+> #输出：
+> #cannondale 
+> #specialized
+> 
+> #bingo!也是跟C语言一模一样
+> ```
+>
+> **特殊语法**
+>
+> ```python
+> bicycles = ['trek', 'cannondale', 'redline', 'specialized'] 
+> print(bicycles[-1]) 
+> 
+> #输出：
+> #specialized
+> 
+> #💯可以实现在不知道列表长度的情况下访问最后的元素 这种语法也适用于其他负数索引
+> #索引-2返回倒数第二个列表元素，索引-3返回倒数第三个列表元素，依此类推
+> ```
+>
+> **3.使用列表中的各个值**
+>
+> ```python
+> bicycles = ['trek', 'cannondale', 'redline', 'specialized'] 
+> message = f"My first bicycle was a {bicycles[0].title()}." 
+> print(message) 
+> 
+> #输出：My first bicycle was a Trek.
+> ```
+
+#### 3.2 修改、添加和删除元素
+
+创建的大多数列表将是动态的，这意味着列表创建后，将随着程序的运行增删元素
+
+> [!TIP]
+>
+> **1.修改列表元素**
+>
+> ```python
+> motorcycles = ['honda', 'yamaha', 'suzuki'] 
+> print(motorcycles) 
+> motorcycles[0] = 'ducati' 
+> print(motorcycles)
+> 
+> #输出：
+> #['honda', 'yamaha', 'suzuki'] 
+> #['ducati', 'yamaha', 'suzuki']
+> 
+> 😄相信学过C语言的你能理解
+> #你可以修改任意列表元素的值，⽽不只是第一个元素的值
+> ```
+>
+> **2.在列表中添加元素**
+>
+> ```python
+> #在列表末尾添加元素
+> motorcycles = ['honda', 'yamaha', 'suzuki'] 
+> print(motorcycles) 
+> motorcycles.append('ducati') 
+> print(motorcycles) 
+> 
+> #输出：
+> #['honda', 'yamaha', 'suzuki'] 
+> #['honda', 'yamaha', 'suzuki', 'ducati']
+> 
+> #append()方法将元素'ducati'添加到列表末尾
+> 
+> #append()方法让动态地创建列表易如反掌
+> motorcycles = [] 
+> motorcycles.append('honda') 
+> motorcycles.append('yamaha') 
+> motorcycles.append('suzuki') 
+> print(motorcycles) 
+> 
+> #输出：['honda', 'yamaha', 'suzuki']
+> 
+> 
+> #在列表中插⼊元素
+> #使⽤insert()方法可在列表的任意位置添加新元素
+> #需要指定新元素的索引和值
+> motorcycles = ['honda', 'yamaha', 'suzuki'] 
+> motorcycles.insert(0, 'ducati') 
+> print(motorcycles) 
+> #输出：['ducati', 'honda', 'yamaha', 'suzuki']
+> ```
+>
+> **3.从列表中删除元素**
+>
+> ```python
+> #使⽤del语句删除元素
+> motorcycles = ['honda', 'yamaha', 'suzuki'] 
+> print(motorcycles) 
+> del motorcycles[0] 
+> print(motorcycles)
+> 
+> #输出：
+> #['honda', 'yamaha', 'suzuki'] 
+> #['yamaha', 'suzuki']
+> 
+> ⏲️#使⽤del可删除任意位置的列表元素，只需要知道其索引即可
+> ```
+>
+> ```python
+> #使⽤pop()方法删除元素
+> motorcycles = ['honda', 'yamaha', 'suzuki'] 
+> print(motorcycles) 
+> popped_motorcycle = motorcycles.pop() 
+> print(motorcycles) 
+> print(popped_motorcycle) 
+> 
+> #输出：['honda', 'yamaha', 'suzuki']
+> #['honda', 'yamaha']
+> #suzuki
+> 
+> #pop()默认删除列表末尾的元素
+> ```
+>
+> ```python
+> #删除列表中任意位置的元素
+> #使⽤pop()删除列表中任意位置的元素，只需要在括号中指定要删除的元素的索引即可
+> motorcycles = ['honda', 'yamaha', 'suzuki'] 
+> first_owned = motorcycles.pop(0) 
+> print(f"The first motorcycle I owned was a {first_owned.title()}.") 
+> 
+> #输出：The first motorcycle I owned was a Honda.
+> 
+> #⏏️注意注意：
+> #!!!每当你使⽤pop()时，被弹出的元素就不再在列表中了!!!
+> PS:如何区分使用del还是pop()
+> 需要使用删除的值就用pop();其余两者问题都不大
+> ```
+>
+> **4.根据值删除元素**
+>
+> ```python
+> motorcycles = ['honda', 'yamaha', 'suzuki', 'ducati'] 
+> print(motorcycles) 
+> motorcycles.remove('ducati') 
+> print(motorcycles)
+> 
+> #输出：
+> #['honda', 'yamaha', 'suzuki', 'ducati'] 
+> #['honda', 'yamaha', 'suzuki']
+> 
+> PS：
+> remove()方法只删除第⼀个指定的值。如果要删除的值可能在列表中出现多次，就需要使用循环
+> 当然romove()函数中的内容可以用变量代替
+> too_expensive = 'ducati' 
+> motorcycles.remove(too_expensive) 
+> ```
+
+#### 3.3 管理列表
+
+> [!NOTE]
+>
+> **1.使用sort()方法对列表进行永久排序**
+>
+> ```python
+> #sort()方法能永久地修改列表元素的排列顺序
+> cars = ['bmw', 'audi', 'toyota', 'subaru'] 
+> cars.sort() #这里其实默认了reverse=False 等同于用cars.sort(reverse=False)
+> print(cars)
+> 
+> #输出：['audi', 'bmw', 'subaru', 'toyota']
+> 
+> cars = ['bmw', 'audi', 'toyota', 'subaru'] 
+> cars.sort(reverse=True) #与字母顺序相反的顺序排列列表元素
+> print(cars) 
+> 
+> #输出：['toyota', 'subaru', 'bmw', 'audi']
+> ```
+>
+> **2.使用sorted()函数对列表进行临时排序**
+>
+> ```python
+> cars = ['bmw', 'audi', 'toyota', 'subaru'] 
+> print("Here is the original list:") 
+> print(cars) 
+> print("\nHere is the sorted list:") 
+> print(sorted(cars)) 
+> print("\nHere is the original list again:") 
+> print(cars) 
+> 
+> #输出：
+> #Here is the original list:
+> #['bmw', 'audi', 'toyota', 'subaru']
+> 
+> #Here is the sorted list:
+> #['audi', 'bmw', 'subaru', 'toyota']
+> 
+> #Here is the original list again:
+> #['bmw', 'audi', 'toyota', 'subaru']
+> 
+> PS：通过这个案例可以发现sorted()函数是不会对列表发生改变的
+> ```
+>
+> **3.反向打印列表**
+>
+> ```python
+> cars = ['bmw', 'audi', 'toyota', 'subaru'] 
+> print(cars) 
+> cars.reverse() 
+> print(cars) 
+> 
+> #输出：
+> #['bmw', 'audi', 'toyota', 'subaru']
+> #['subaru', 'toyota', 'audi', 'bmw']
+> 
+> PS：reverse()方法会永久地修改列表元素的排列顺序，但可随时恢复到原来
+> 的排列顺序，只需对列表再次调用reverse()即可
+> 且reverse()不是按与字母顺序相反的顺序排列列表元素，只是反转列表元素的排列顺序
+> ```
+>
+> **4.确定列表的长度**
+>
+> ```python
+> cars = ['bmw', 'audi', 'toyota', 'subaru'] 
+> print(len(cars))
+> 
+> #输出：4
+> ```
+
