@@ -80,7 +80,7 @@
 # print(cars)
 
 #反向打印列表
-cars = ['bmw', 'audi', 'toyota', 'subaru']
-print(cars)
-cars.reverse()
-print(cars)
+# cars = ['bmw', 'audi', 'toyota', 'subaru']
+# print(cars)
+# cars.reverse()
+# print(cars)

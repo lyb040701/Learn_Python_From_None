@@ -617,3 +617,443 @@ print(bicycles)
 > #输出：4
 > ```
 
+------
+
+### 第4章 操作列表
+
+#### 4.1 遍历整个列表
+
+```python
+magicians = ['alice', 'david', 'carolina'] 
+for magician in magicians: 
+    print(magician)
+    
+#输出：
+#alice
+#david
+#carolina
+```
+
+> [!TIP]
+>
+> 刚开始使用循环时请牢记，不管列表包含多少个元素，每个元素都将被执行循环指定的步骤。如果列表包含100万个元素， Python就将重复执行指定的步骤100万次，而且通常速度非常快。
+
+```python
+#在for循环中执行更多的操作
+magicians = ['alice', 'david', 'carolina'] 
+for magician in magicians: 
+	print(f"{magician.title()}, that was a great trick!") 
+    
+#输出：
+#Alice, that was a great trick!
+#David, that was a great trick!
+#Carolina, that was a great trick!
+```
+
+#### 4.2 避免缩进错误
+
+> [!CAUTION]
+>
+> > 注意循环语句的缩进问题
+> >
+> > ```python
+> > #1.忘记缩进
+> > magicians = ['alice', 'david', 'carolina'] 
+> > for magician in magicians: 
+> > print(magician)
+> > ```
+> >
+> > ![image-20260106190549068](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260106190549068.png)
+> >
+> > ------
+> >
+> > ```python
+> > #2.不必要的缩进
+> > message = "Hello Python world!" 
+> >     print(message)
+> > ```
+> >
+> > ![image-20260106190702912](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260106190702912.png)
+> >
+> > ------
+> >
+> > ```python
+> > #3.遗漏冒号
+> > magicians = ['alice', 'david', 'carolina'] 
+> > for magician in magicians 
+> > 	print(magician)
+> > 
+> > ⚖#这里需要注意的是Python的循环或者条件语句基本上都会用到: get到这个点就好了！
+> > ```
+> >
+> > ![image-20260106190802488](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260106190802488.png)
+
+#### 4.3 创建数值列表
+
+> [!IMPORTANT]
+>
+> **1.使用range()函数**
+>
+> ```python
+> for value in range(1, 5): 
+>  print(value)
+> 
+> #输出：
+> #1
+> #2
+> #3
+> #4
+> 
+> #看到这个结果可能有些许疑惑
+> #range()函数让Python从指定的第一个值开始数，并在到达指定的第二个值时停止
+> PS：可以理解为高中数学集合的左闭右开😆
+> 
+> #要打印数1~5，需要使⽤range(1,6)
+> for value in range(1, 6): 
+>  print(value) 
+> ```
+>
+> **2.使用range()创建数值列表**
+>
+> ```python
+> numbers = list(range(1, 6)) 
+> print(numbers)
+> 
+> #输出：[1, 2, 3, 4, 5]
+> PS：这里的list()函数相当于直接将range(1,6)强制转换成列表对象 可以类比成C语言中的强制类型转换(int)'123'
+> 
+> ！！！补充！！！
+> r = range(1,6)
+> print(r)
+> print(type(r))
+> 
+> #输出：
+> #range(1, 6)
+> #<class 'range'>
+> 这里可以发现range也是一个数据类型 range对象采用惰性求值的策略，它只存储生成序列的起始值、终止值和步长，以及计算下一个值的方法。只有当你真正需要用到序列中的数字时（例如在for循环中迭代），它才会临时计算并提供给你。
+> 🔝所以最上面那个例子的numbers需要进行list()函数进行类型转换才能逐个显示1-5的数
+> 
+> #在使用range()函数时，还可指定步长 给这个函数指定第三个参数，Python将根据这个步长来生成数
+> even_numbers = list(range(2, 11, 2)) 
+> print(even_numbers)
+> #输出：[2, 4, 6, 8, 10]
+> 在这个示例中，range()函数从2开始数，然后不断地加2，直到达到或超过终值（11）
+> 
+> #小案例
+> #生成前10个整数的平方
+> squares = [] 
+> for value in range(1, 11): 
+>      square = value ** 2 
+>      squares.append(square) 
+> print(squares)
+> 
+> #输出：[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+> ```
+>
+> **3.对数值列表执行简单的统计计算**
+>
+> ```python
+> digits = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] 
+> print(min(digits))
+> print(max(digits))
+> print(sum(digits))
+> 
+> #输出：
+> #0
+> #9
+> #45
+> ```
+>
+> **4.列表推导式**
+>
+> ```python
+> squares = [value**2 for value in range(1, 11)] 
+> print(squares)
+> 
+> #输出：[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+> #列表推导式（list comprehension）将for循环和创建新元素的代码合并成一行，并自动追加新元素。
+> 
+> 要使用这种语法，首先指定⼀个描述性的列表名，如squares。然后指定一个左方括号，并定义一个表达式，用于生成要存储到列表中的值。在这个示例中，表达式为value**2，它计算平方值。接下来，编写一个for循环，用于给表达式提供值，再加上右方括号。在这个示例中，for循环为for value in range(1,11)，它将值1~10提供给表达式value**2。注意，这里的for语句末尾没有冒号。
+> ```
+
+> [!NOTE]
+>
+> **🐶接下来考考你(重点看看Text6和Text7)**
+>
+> 🪖**答案在这：**[0基础入门Python-小测试](https://mp.weixin.qq.com/s/0HmRBXVLTx3V0nERKLuFXQ)
+>
+> **Test1**
+>
+> **使用一个for循环打印数1~20（含）**
+>
+> 
+>
+> **Test2**
+>
+> **创建⼀个包含数1~1000000的列表，再使用一个for循环将这些数打印出来。（如果输出的时间太长，按 Ctrl+C停止输出，或关闭输出窗口。）**
+>
+> 
+>
+> **Text3**
+> **创建一个包含数1~1000000的列表，再使用min()和max()核实该列表确实是从1开始、到1000000结束的。另外，对这个列表调用函数 sum()，看看Python将100万个数相加需要多长时间。**
+>
+> 
+>
+> **Text4**
+>
+> **通过给range()函数指定第三个参数来创建一个列表，其中包含1~20的奇数；再使用一个for循环将这些数打印出来。** 
+>
+> 
+>
+> **Text5**
+>
+> **创建⼀个列表，其中包含3~30内能被3整除的数，再使用一个for循环将这个列表中的数打印出来。**
+>
+> 
+>
+>  **Text6**
+>
+> **将同一个数乘三次称为立方。例如，在Python中， 2的立方用 2\******3** **表示。创建一个列表，其中包含前10个整数（1~10）的立方，再使用一个for循环将这些立方数打印出来。**
+>
+> 
+>
+> **Text7**
+>
+> **使用列表推导式生成一个列表，其中包含前10个整数的立方。**
+
+#### 4.4 使用列表的一部分
+
+**切片**
+
+要创建切片，可指定要使用的第一个元素和最后一个元素的索引。与range()函数⼀样，Python在到达指定的第二个索引之前的元素时停止。（同样可以理解为左闭右开）
+
+```python
+players = ['charles', 'martina', 'michael', 'florence', 'eli'] 
+print(players[0:3])
+#输出：['charles', 'martina', 'michael']
+
+players = ['charles', 'martina', 'michael', 'florence', 'eli'] 
+print(players[1:4]) 
+#输出：['martina', 'michael', 'florence']
+
+如果没有指定第一个索引，自动从列表开头开始
+players = ['charles', 'martina', 'michael', 'florence', 'eli'] 
+print(players[:4]) 
+#输出：['charles', 'martina', 'michael', 'florence']
+
+要让切片终⽌于列表末尾，也可使用类似的语法
+players = ['charles', 'martina', 'michael', 'florence', 'eli'] 
+print(players[2:]) 
+#输出：['michael', 'florence', 'eli']
+
+负数索引返回与列表末尾有相应距离的元素，因此可以输出列表末尾的任意切片
+players = ['charles', 'martina', 'michael', 'florence', 'eli'] 
+print(players[-3:]) 
+#输出:['michael', 'florence', 'eli']
+```
+
+**遍历切片**
+
+```python
+players = ['charles', 'martina', 'michael', 'florence', 'eli'] 
+print("Here are the first three players on my team:") 
+for player in players[:3]: 
+	print(player.title()) 
+    
+#输出：
+Here are the first three players on my team: 
+Charles 
+Martina 
+Michael
+
+🪵!!!只需要记住列表的切片还是列表 只不过内容是列表的部分
+```
+
+**复制列表**
+
+> [!TIP]
+>
+> ```python
+> my_foods = ['pizza', 'falafel', 'carrot cake'] 
+> friend_foods = my_foods[:] 
+>  
+> print("My favorite foods are:") 
+> print(my_foods) 
+>  
+> print("\nMy friend's favorite foods are:") 
+> print(friend_foods)
+> 
+> #输出：
+> My favorite foods are: 
+> ['pizza', 'falafel', 'carrot cake'] 
+>  
+> My friend's favorite foods are: 
+> ['pizza', 'falafel', 'carrot cake']
+> 
+> #为了核实确实有两个列表，下面在每个列表中都添加一种食品，并确认每个列表都记录了相应的⼈喜欢的食品
+> my_foods.append('cannoli') 
+> friend_foods.append('ice cream')
+> 
+> print("My favorite foods are:") 
+> print(my_foods) 
+>  
+> print("\nMy friend's favorite foods are:") 
+> print(friend_foods) 
+> 
+> #输出：
+> My favorite foods are: 
+> ['pizza', 'falafel', 'carrot cake', 'cannoli'] 
+> My friend's favorite foods are: 
+> ['pizza', 'falafel', 'carrot cake', 'ice cream']
+> ```
+>
+> **!!!容易犯的误区**
+>
+> ```python
+> my_foods = ['pizza', 'falafel', 'carrot cake'] 
+> 
+> #这是行不通的：
+> friend_foods = my_foods 
+> 
+> my_foods.append('cannoli') 
+> friend_foods.append('ice cream') 
+> print("My favorite foods are:") 
+> print(my_foods) 
+> print("\nMy friend's favorite foods are:") 
+> print(friend_foods) 
+> 
+> #输出：
+> My favorite foods are: 
+> ['pizza', 'falafel', 'carrot cake', 'cannoli', 'ice cream'] 
+> My friend's favorite foods are: 
+> ['pizza', 'falafel', 'carrot cake', 'cannoli', 'ice cream']
+> 
+> 这里将my_foods赋给friend_foods，⽽不是将my_foods的副本赋给friend_foods。这种语法实际上是让 Python将新变量friend_foods关联到已与my_foods相关联的列表，因此这两个变量指向同一个列表。
+> 因此创建副本需要friend_foods = my_foods[:]
+> ```
+
+> [!NOTE]
+>
+> 🦴**小小的练习一下**
+>
+> 使用切片 来打印列表中间的三个元素
+>
+> ```python
+> players = ['charles', 'martina', 'michael', 'florence', 'eli']
+> 
+> #我一猜你会用players[1:4]
+> #想想如何不用指定的下标访问呢?如果列表很长的话难不成要一个一个数过去?
+> 
+> #bingo!想到用len()函数来获取列表长度
+> n = len(players)
+> print(players[int((n - 1) / 2) - 1:int((n - 1) / 2) + 2])
+> 
+> PS：这里用了int()强制类型转换 想想为什么?
+> 第3章数的部分提到过将任意两个数相除，结果总是浮点数 那么我们切片的索引应该是整数吧=>所以需要进行类型转换
+> 还有要注意我们切片的范围，左闭右开噢！
+> ```
+
+#### 4.5 元组
+
+Python将不能修改的值称为**不可变的**，而不可变的列表称为**元组**（tuple）
+
+
+
+**定义元组**
+
+元组看起来很像列表，但使用圆括号而不是方括号来标识。定义元组后，就可使用索引来访问其元素，就像访问列表元素⼀样。
+
+```python
+#如果有一个⼤⼩不应改变的矩形，可将其长度和宽度存储在一个元组中，从而确保它们是不能修改的
+dimensions = (200, 50) 
+print(dimensions[0]) 
+print(dimensions[1])
+#输出：
+200 
+50
+```
+
+尝试修改元组dimensions的⼀个元素，看看结果如何：
+
+```python
+dimensions = (200, 50) 
+dimensions[0] = 250 
+```
+
+![image-20260107141142974](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260107141142974.png)
+
+在代码试图修改矩形的尺寸时， Python会报错。
+
+> [!CAUTION]
+>
+> **严格地说，元组是由逗号标识的，圆括号只是让元组看起来更整洁、更清晰。如果你要定义只包含一个元素的元组，必须在这个元素后面加上逗号**
+>
+> ```python
+> my_t = (3)
+> for item in my_t:
+>     print(item)
+> ```
+>
+> ![image-20260107141624847](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260107141624847.png)
+>
+> 解释器会把不加逗号的元组当成**单个元素它本身的数据类型**来看 而不是当**元组** 因此无法进行遍历
+>
+> ```python
+> my_t = (3,)
+> for item in my_t:
+>     print(item)
+> print(type(my_t))
+> 
+> #输出：
+> #3
+> #<class 'tuple'>
+> 
+> 加了逗号就会当作元组来看
+> ```
+
+**遍历元组**
+
+```python
+dimensions = (200, 50) 
+for dimension in dimensions: 
+	print(dimension) 
+
+#输出：
+200 
+50
+```
+
+**修改元组变量**
+
+```python
+dimensions = (200, 50) 
+print("Original dimensions:") 
+for dimension in dimensions: 
+	print(dimension) 
+    
+dimensions = (400, 100) 
+print("\nModified dimensions:") 
+	for dimension in dimensions: 
+	print(dimension) 
+       
+#输出：
+Original dimensions: 
+200 
+50 
+Modified dimensions: 
+400 
+100
+
+相当于将一个新元组关联到变量dimensions 并没有改变原先元组中的元素 因此合法
+```
+
+**总结：**
+
+相比于列表，元组是更简单的数据结构。如果需要存储一组在程序的整个生命周期内都**不变的值**，就可以使用元组=>**不可改变的列表+定义采用的是圆括号**
+
+
+
+列表的内容到此结束咯！🌸
+
+------
+
