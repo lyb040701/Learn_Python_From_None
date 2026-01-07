@@ -1053,7 +1053,365 @@ Modified dimensions:
 
 
 
+> [!IMPORTANT]
+>
+> **补充一个知识点方便写代码**
+>
+> 如果用pycharm的话它自带自动缩进：Ctrl+Alt+L
+
+
+
 列表的内容到此结束咯！🌸
+
+------
+
+### 第5章 if语句
+
+> [!NOTE]
+>
+> 很多例子是书上的 我觉得有一丝繁琐 能get到点即可
+
+#### 5.1 一个简单的示例
+
+```python
+# 一个简单的示例
+cars = ['audi', 'bmw', 'subaru', 'toyota']
+for car in cars:
+    if car == 'bmw':
+        print(car.upper())
+    else:
+        print(car.title())
+        
+#输出：
+Audi 
+BMW 
+Subaru 
+Toyota
+```
+
+#### 5.2 条件测试
+
+**检查是否相等**
+
+```python
+car = 'bmw' 
+print(car == 'bmw')
+
+#输出：True
+```
+
+**如何在检查是否相等时忽略大小写**
+
+```python
+#不管car里是什么 调用lower()全部小写进行比较 而且lower()方法并没有影响存储在变量car中的值
+
+car = 'Audi' 
+print(car.lower() == 'audi')
+
+#输出：True
+```
+
+**检查是否不等**
+
+```python
+requested_topping = 'mushrooms' 
+if requested_topping != 'anchovies': 
+    print("Hold the anchovies!")
+    
+#输出：Hold the anchovies!
+```
+
+**数值比较**
+
+```python
+answer = 17 
+if answer != 42: 
+    print("That is not the correct answer. Please try again!")
+    
+#输出：That is not the correct answer. Please try again!
+```
+
+**检查多个条件**
+
+```python
+#使用and检查多个条件
+age_0 = 22 
+age_1 = 18 
+print(age_0 >= 21 and age_1 >= 21) 
+
+#输出：False
+```
+
+> [!TIP]
+>
+> 为了改善可读性，可将每个条件测试都分别放在一对括号内，但并非必须这样做。如果使用括号，条件测试将类似于下面这样：
+>
+> ```python
+> (age_0 >= 21) and (age_1 >= 21)
+> ```
+
+```python
+#使用or检查多个条件
+age_0 = 22 
+age_1 = 18 
+print(age_0 >= 21 or age_1 >= 21) 
+
+#输出：True
+```
+
+**检查特定的值是否在列表中**
+
+```python
+requested_toppings = ['mushrooms', 'onions', 'pineapple'] 
+print('mushrooms' in requested_toppings)
+print('pepperoni' in requested_toppings)
+
+#输出：
+True 
+False 
+```
+
+**检查特定的值是否不在列表中**
+
+```python
+banned_users = ['andrew', 'carolina', 'david'] 
+user = 'marie' 
+if user not in banned_users: 
+    print(f"{user.title()}, you can post a response if you wish.")
+    
+#输出：Marie, you can post a response if you wish.
+```
+
+**布尔表达式**
+
+布尔表达式不过是条件测试的**别名**罢了。与条件表达式一样，布尔表达式的结果要么为**True**，要么为**False** 。
+
+布尔值通常用于**记录条件** 如游戏是否正在运行或用户是否可以编辑网站的特定内容
+
+```python
+game_active = True 
+can_edit = False
+```
+
+#### 5.3 if语句
+
+**简单的if语句**
+
+```python
+age = 19 
+if age >= 18: 
+    print("You are old enough to vote!")
+
+#输出：You are old enough to vote!
+```
+
+**if-else语句**
+
+```python
+age = 17 
+if age >= 18: 
+      print("You are old enough to vote!") 
+      print("Have you registered to vote yet?") 
+else: 
+	print("Sorry, you are too young to vote.") 
+	print("Please register to vote as soon as you turn 18!") 
+    
+#输出：
+#Sorry, you are too young to vote. 
+#Please register to vote as soon as you turn 18!
+```
+
+**if-elif-else语句**
+
+```python
+age = 12 
+if age < 4: 
+	print("Your admission cost is $0.") 
+elif age < 18: 
+	print("Your admission cost is $25.") 
+else: 
+	print("Your admission cost is $40.")
+    
+#输出：Your admission cost is $25.
+
+#简洁版：
+age = 12 
+if age < 4: 
+	price = 0 
+elif age < 18: 
+	price = 25 
+else: 
+	price = 40 
+print(f"Your admission cost is ${price}.") 
+```
+
+**使用多个elif代码块**
+
+```python
+age = 12 
+ 
+if age < 4: 
+    price = 0 
+elif age < 18: 
+    price = 25 
+elif age < 65: 
+    price = 40 
+else: 
+    price = 20 
+ 
+print(f"Your admission cost is ${price}.") 
+
+#输出：Your admission cost is $25.
+```
+
+**省略else代码块**
+
+```python
+
+age = 12 
+ 
+if age < 4: 
+    price = 0 
+elif age < 18: 
+    price = 25 
+elif age < 65: 
+    price = 40 
+elif age >= 65: 
+    price = 20 
+ 
+print(f"Your admission cost is ${price}.") 
+```
+
+**测试多个条件**
+
+```python
+requested_toppings = ['mushrooms', 'extra cheese'] 
+if 'mushrooms' in requested_toppings: 
+	print("Adding mushrooms.") 
+if 'pepperoni' in requested_toppings: 
+	print("Adding pepperoni.") 
+if 'extra cheese' in requested_toppings: 
+	print("Adding extra cheese.") 
+print("\nFinished making your pizza!")
+
+#输出：
+#Adding mushrooms. 
+#Adding extra cheese. 
+ 
+#Finished making your pizza!
+```
+
+如果像下面这样转而使用if-elif-else语句，代码将不能正确运行，因 为只要有一个条件测试通过，就会跳过余下的条件测试
+
+```python
+requested_toppings = ['mushrooms', 'extra cheese'] 
+ 
+if 'mushrooms' in requested_toppings: 
+    print("Adding mushrooms.") 
+elif 'pepperoni' in requested_toppings: 
+    print("Adding pepperoni.") 
+elif 'extra cheese' in requested_toppings: 
+    print("Adding extra cheese.") 
+ 
+print("\nFinished making your pizza!") 
+
+#输出：
+#Adding mushrooms. 
+ 
+#Finished making your pizza!
+```
+
+总之，如果只想运行⼀个代码块，就使用if-elif-else语句
+
+如果要运行多个代码块，就使用一系列独立的if语句
+
+#### 5.4 使用if语句处理列表
+
+**检查特殊元素**
+
+```python
+#循环语句+条件判断
+
+requested_toppings = ['mushrooms', 'green peppers', 'extra cheese'] 
+ 
+for requested_topping in requested_toppings: 
+    if requested_topping == 'green peppers': 
+        print("Sorry, we are out of green peppers right now.") 
+    else: 
+        print(f"Adding {requested_topping}.") 
+ 
+print("\nFinished making your pizza!")
+
+#输出：
+#Adding mushrooms. 
+#Sorry, we are out of green peppers right now. 
+#Adding extra cheese. 
+ 
+#Finished making your pizza!
+```
+
+**确定列表非空**
+
+```python
+ 
+if requested_toppings: 
+    for requested_topping in requested_toppings: 
+        print(f"Adding {requested_topping}.") 
+    print("\nFinished making your pizza!") 
+else: 
+    print("Are you sure you want a plain pizza?") 
+
+#输出：Are you sure you want a plain pizza?
+```
+
+**使用多个列表**
+
+```python
+available_toppings = ['mushrooms', 'olives', 'green peppers', 
+                        'pepperoni', 'pineapple', 'extra cheese'] 
+requested_toppings = ['mushrooms', 'french fries', 'extra cheese'] 
+for requested_topping in requested_toppings: 
+	if requested_topping in available_toppings: 
+		print(f"Adding {requested_topping}.") 
+    else: 
+        print(f"Sorry, we don't have {requested_topping}.") 
+        
+print("\nFinished making your pizza!")
+
+#输出：
+#Adding mushrooms. 
+#Sorry, we don't have french fries. 
+#Adding extra cheese. 
+#Finished making your pizza!
+```
+
+
+
+> [!NOTE]
+>
+> **小补充 虽然可能用不上**
+>
+> ```python
+> #or和and的短路问题
+> is_admin = True
+> 
+> if(is_admin or print("显示管理员面板")==None):
+>     print(1)
+>     
+> #输出：1
+> 这里的is_admin已经是True了 就不会再执行后面的条件 这就是经典的or的短路问题
+> 
+> is_admin = False
+> if(is_admin and print("显示管理员面板")==None):
+>     print(1)
+> 
+> #无输出
+> 这里的is_admin = False 整个and语句就不可能再会是True 就不会再执行后面的条件 直接跳过if语句块 这就是经典的and的短路问题
+> ```
+
+
+
+第5章到此结束！🌹
 
 ------
 
