@@ -1959,3 +1959,282 @@ for username, user_info in users.items():
 ------
 
 ### 第7章 用户输入和while循环
+
+#### 7.1 input()函数的工作原理
+
+```python
+message = input("Tell me something, and I will repeat it back to you: ") 
+print(message)
+
+这里input()函数接受一个参数，即要向用户显示的提示
+
+当运行Python的第一行代码时，用户将看到提示“Tell me something, and I will repeat it back to you:”
+
+这时候程序等待用户输入，并在用户按回车键后继续运行。用户的输入被赋给变量message，接下来的print将输入呈现给用户
+```
+
+![image-20260112162413850](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260112162413850.png)
+
+**用int()来获取数值的输入**
+
+```python
+age = input("How old are you?")
+#模拟终端输入 <<<How old are you?21
+print(age>=18)
+```
+
+![image-20260112170009492](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260112170009492.png)
+
+> [!NOTE]
+>
+> **这里可以发现我们input的输入是字符串类型**
+>
+> ```python
+> age = input("How old are you?")
+> #模拟终端输入 <<<How old are you?21
+> age = int(age)
+> print(age>=18)
+> 
+> #输出:True
+> ```
+
+**求模运算符**
+
+求模运算符（ % ）是个很有用的工具，它将两个数相除并返回余数
+
+```python
+print(4%3)
+#输出:1
+```
+
+#### 7.2 while循环简介
+
+**使用while循环**
+
+举一个小例子
+
+```python
+#使用while循环来数数
+current_number = 1 
+while current_number <= 5: 
+    print(current_number) 
+    current_number += 1
+    
+#输出：
+1
+2
+3
+4
+5
+```
+
+**让用户选择何时退出**
+
+```python
+message = "" 
+while message != 'quit': 
+    message = input(prompt) 
+    print(message)
+
+#输出：
+Hello everyone! 
+Hello everyone! 
+ 
+Hello again. 
+Hello again. 
+ 
+quit 
+quit 
+
+程序执行流程：
+1.message = ""  message != 'quit'
+2.message = input(prompt) message="Hello everyone!" print(message)
+3.message="Hello everyone!" message != 'quit'
+4.message = input(prompt) message="Hello again." print(message)
+5.message="Hello again." message != 'quit'
+6.message = input(prompt) message="quit" print(message)
+7.message="quit" message == 'quit'=>退出
+
+#这个程序很好，唯一美中不足的是，它将单词'quit'也作为一条消息打印了出来。为了修复这种问题，只需要使用一个简单的if测试
+message = "" 
+while message != 'quit': 
+    message = input(prompt) 
+ 
+    if message != 'quit': 
+        print(message) 
+```
+
+**使用标志**
+
+这个应该学过C语言会有印象。在要求满足很多条件才继续运行的程序中，可定义一个变量，用于判断整个程序是否处于活动状态。这个变量称为标志（flag），充当程序的交通信号灯。
+
+```python
+#通过使用标志可以让上述程序更为简洁易懂
+active = True 
+while active: 
+	message = input() 
+	if message == 'quit': 
+		active = False 
+	else: 
+		print(message)
+```
+
+**使用break退出循环**
+
+如果不管条件测试的结果如何，想立即退出while循环，不再运行循环中余下的代码，可使用break语句。
+
+再来看一个例子 
+
+```python
+prompt = "\nPlease enter the name of a city you have visited:" 
+prompt += "\n(Enter 'quit' when you are finished.) " 
+while True: 
+	city = input(prompt) 
+    if city == 'quit': 
+    	break 
+    else: 
+        print(f"I'd love to go to {city.title()}!")
+
+#输出：
+Please enter the name of a city you have visited: 
+(Enter 'quit' when you are finished.) New York 
+I'd love to go to New York! 
+Please enter the name of a city you have visited: 
+(Enter 'quit' when you are finished.) San Francisco 
+I'd love to go to San Francisco! 
+Please enter the name of a city you have visited: 
+(Enter 'quit' when you are finished.) quit
+```
+
+**在循环中使用continue**
+
+要返回循环开头，并根据条件测试的结果决定是否继续执行循环，可使用continue语句，它不像break语句那样不再执行余下的代码并退出整个循环。
+可以举一个1-10奇数循环的例子
+
+```python
+current_number = 0 
+while current_number < 10: 
+	current_number += 1 
+	if current_number % 2 == 0: 
+    	continue 
+    print(current_number)
+
+#输出：
+1
+3
+5
+7
+9
+```
+
+**避免无限循环**
+
+这个是我个人认为写程序最重要的地方 一个死循环程序在实际应用中可能自己都检查不出来 就是因为自己在**写循环条件和条件状态改变时**没有注意到这个点
+每个while循环都必须有结束运行的途径，这样才不会没完没了地执行下去。
+
+```python
+x = 1 
+while x <= 5: 
+    print(x) 
+    x += 1
+
+#加入忘记了写x += 1
+#这个循环将没完没了地运⾏！
+
+x = 1 
+while x <= 5: 
+    print(x)
+```
+
+每个程序员都会偶尔不小心地编写出无限循环，在循环的退出条件比较微妙时尤其如此。如果程序陷入无限循环，既可按Ctrl+C，也可关闭显示程序输出的终端窗口。
+
+
+这段话我觉得**书上说的很好**
+
+> [!TIP]
+>
+> 要避免编写无限循环，务必对每个while循环进行测试，确保它们按预期那样结束。如果希望程序在用户输入特定值时结束，可运行程序并输入该值。如果程序在这种情况下没有结束，请检查程序处理这个值的方式，确认程序至少有⼀个地方导致循环条件为False或导致break语句得以执行。
+
+#### 7.3 使用while循环处理列表和字典
+
+以下的例子能看懂代码就行 实际案例到时遇到个人觉得是能够写出来的
+
+**在列表之间移动元素**
+
+假设有一个列表包含新注册但还未验证的网站用户。验证这些用户后，如何将他们移到已验证用户列表中呢？一种办法是使用⼀个while循环，在验证用户的同时将其从未验证用户列表中提取出来，再将其加入已验证用户列表。
+
+```python
+unconfirmed_users = ['alice', 'brian', 'candace'] 
+confirmed_users = [] 
+ 
+#将每个经过验证的户都移到已验证⽤户列表中
+ 
+while unconfirmed_users: 
+	current_user = unconfirmed_users.pop() 
+	print(f"Verifying user: {current_user.title()}") 
+	confirmed_users.append(current_user) 
+
+ 
+print("\nThe following users have been confirmed:") 
+for confirmed_user in confirmed_users: 
+print(confirmed_user.title())
+```
+
+**删除为特定值的所有列表元素**
+
+```python
+pets = ['dog', 'cat', 'dog', 'goldfish', 'cat', 'rabbit', 'cat'] 
+print(pets) 
+while 'cat' in pets: 
+    pets.remove('cat') 
+print(pets)
+
+#输出：
+['dog', 'cat', 'dog', 'goldfish', 'cat', 'rabbit', 'cat'] 
+['dog', 'dog', 'goldfish', 'rabbit']
+```
+
+**使用用户输入填充字典**
+
+```python
+responses = {} 
+
+polling_active = True 
+ 
+while polling_active: 
+	name = input("\nWhat is your name? ") 
+    response = input("Which mountain would you like to climb someday?") 
+ 
+    #将回答存储在字典中
+	responses[name] = response 
+ 
+    #看看是否还有人要参与调查
+ 
+	repeat = input("Would you like to let another person respond? (yes/no) ") 
+    if repeat == 'no': 
+    	polling_active = False 
+ 
+#调查结束，显示结果
+print("\n--- Poll Results ---") 
+for name, response in responses.items(): 
+	print(f"{name} would like to climb {response}.")
+
+#输出：
+What is your name? Eric 
+Which mountain would you like to climb someday? Denali 
+Would you like to let another person respond? (yes/no) yes 
+What is your name? Lynn 
+Which mountain would you like to climb someday? Devil's Thumb 
+Would you like to let another person respond? (yes/no) no --- Poll Results --- 
+Eric would like to climb Denali. 
+Lynn would like to climb Devil's Thumb. 
+```
+
+> [!NOTE]
+>
+> **来个小测试**
+> 做个猜数字小游戏
+> 提示：使用**random.randint(a,b)**实现模拟随机数 在a,b之间包括a,b取一个随机数(通过时间戳)
+>
+> [猜数字小游戏](https://mp.weixin.qq.com/s/OeKt56e05zzzQO3fhnonOg)
+
