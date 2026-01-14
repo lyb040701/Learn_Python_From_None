@@ -2238,3 +2238,666 @@ Lynn would like to climb Devil's Thumb.
 >
 > [猜数字小游戏](https://mp.weixin.qq.com/s/OeKt56e05zzzQO3fhnonOg)
 
+### 第8章 函数
+
+#### 8.1 定义函数
+
+第一行代码使用关键字def来告诉Python，你要定义一个函数。这是函数定义，向Python指出了函数名，还可以在括号内指出函数为完成任务需要什么样的信息(也就是C语言的传参，只不过python不需要定义数据类型只需要变量名)。
+
+```python
+def greet_user(): 
+    """显示简单的问候语""" 
+    print("Hello!") 
+    
+greet_user()
+```
+
+**向函数传递信息**
+
+```python
+def greet_user(username): 
+    """显示简单的问候语""" 
+	print(f"Hello, {username.title()}!")
+    
+greet_user('jesse') 
+```
+
+**实参和形参**
+
+> [!NOTE]
+>
+> 在greet_user()函数的定义中，变量username是一个(parameter)，即函数完成工作所需的信息。在代码greet_user('jesse')中，值'jesse'是一个形参实参(argument)，即在调用函数时传递给函数的信息。在调用函数时，我们将要让函数使用的信息放在括号内。在greet_user('jesse')这个示例中，我们将实参'jesse'传递给函数greet_user()，这个值被赋给了形参username。
+
+#### 8.2 传递实参
+
+函数定义中可能包含多个形参，因此函数调用中也可能包含多个实参。向函数传递实参的方式很多：既可以使用位置实参，这要求实参的顺序与形参的顺序相同；也可以使用关键字实参，其中每个实参都由变量名和值组 成；还可以使用列表和字典。
+
+##### **位置实参**
+
+在调用函数时，Python必须将函数调用中的每个实参关联到函数定义中的一个形参。最简单的方式是基于实参的顺序进行关联。以这种方式关联的实参称为**位置实参**。
+
+```python
+def describe_pet(animal_type, pet_name): 
+	"""显示宠物的信息""" 
+	print(f"\nI have a {animal_type}.") 
+	print(f"My {animal_type}'s name is {pet_name.title()}.") 
+describe_pet('hamster', 'harry')
+
+#输出：
+I have a hamster. 
+My hamster's name is Harry.
+```
+
+> [!TIP]
+>
+> **调用函数多次**
+>
+> ```python
+> def describe_pet(animal_type, pet_name): 
+>     """显示宠物的信息""" 
+>     print(f"\nI have a {animal_type}.") 
+>     print(f"My {animal_type}'s name is {pet_name.title()}.") 
+> describe_pet('hamster', 'harry') 
+> describe_pet('dog', 'willie') 
+> 
+> #输出：
+> I have a hamster. 
+> My hamster's name is Harry. 
+> I have a dog. 
+> My dog's name is Willie.
+> ```
+>
+> 多次调用同一个函数是一种效率极高的工作方式。(个人觉得是函数的一个非常重要的作用-简化重复的代码)
+> **位置实参的顺序很重要**
+>
+> ```python
+> #当使用位置实参来调用函数时，如果实参的顺序不正确，结果可能会出乎意料
+> def describe_pet(animal_type, pet_name): 
+>     """显示宠物的信息""" 
+>     print(f"\nI have a {animal_type}.") 
+>     print(f"My {animal_type}'s name is {pet_name.title()}.") 
+> describe_pet('harry', 'hamster') #这边把实参的位置反了，因此会得到不一样的结果
+> 
+> #输出：
+> I have a harry. 
+> My harry's name is Hamster.
+> ```
+
+##### **关键字实参**
+
+关键字实参是传递给函数的名值对。这样会直接在实参中将名称和值关联起来，因此向函数传递实参时就不会混淆了。
+
+```python
+def describe_pet(animal_type, pet_name): 
+    """显示宠物的信息""" 
+    print(f"\nI have a {animal_type}.") 
+    print(f"My {animal_type}'s name is {pet_name.title()}.") 
+
+ 
+describe_pet(pet_name='harry', animal_type='hamster')
+
+#现在即使将参数顺序反了 结果依然是正确的逻辑 可以认为是一一对应
+```
+
+##### **默认值**
+
+在编写函数时，可以给每个形参指定默认值。如果在调用函数中给形参提供了实参，Python将使用指定的实参值；否则，将使用形参的默认值。
+
+```python
+def describe_pet(pet_name, animal_type='dog'): 
+    """显示宠物的信息""" 
+    print(f"\nI have a {animal_type}.") 
+    print(f"My {animal_type}'s name is {pet_name.title()}.") 
+
+describe_pet(pet_name='willie') 
+
+#输出：
+I have a dog. 
+My dog's name is Willie.
+
+describe_pet(pet_name='harry', animal_type='hamster')
+#输出：
+I have a harry. 
+My harry's name is Hamster.
+```
+
+##### **等效的函数调用**
+
+鉴于可混合使用位置实参、关键字实参和默认值，通常有多种等效的函数调用方式。请看describe_pet()函数的如下定义，其中给一个形参提供了默认值：
+
+```python
+def describe_pet(pet_name, animal_type='dog'):
+```
+
+```python
+#一条名为Willie的⼩狗
+describe_pet('willie') 
+describe_pet(pet_name='willie') 
+
+#一只名为Harry的仓⿏ 
+describe_pet('harry', 'hamster') 
+describe_pet(pet_name='harry', animal_type='hamster') 
+describe_pet(animal_type='hamster', pet_name='harry')
+
+PS：可以认为是不同的调用函数方式但输出的结果是一样的=>等效的函数调用
+```
+
+##### **避免实参错误**
+
+等你开始使用函数后，也许会遇到实参不匹配错误。当你提供的实参多于或少于函数完成工作所需的实参数量时，将出现实参不匹配错误。
+
+```python
+def describe_pet(animal_type, pet_name): 
+    """显示宠物的信息""" 
+    print(f"\nI have a {animal_type}.") 
+    print(f"My {animal_type}'s name is {pet_name.title()}.")
+
+describe_pet() 
+```
+
+Python发现该函数调用缺少必要的信息，并用**traceback**指出了这⼀点：
+
+![image-20260113182511407](C:\Users\LENOVO\AppData\Roaming\Typora\typora-user-images\image-20260113182511407.png)
+
+> [!NOTE]
+>
+> traceback首先指出问题出在什么地方(line 59)，让我们能够回过头去找出函数调用中的错误。然后，指出导致问题的函数调用（describe_pet()函数有问题）。最后，traceback指出该函数调用缺少两个实参，并指出了相应形参的名称(animal_type和pet_name)。
+
+#### 8.3 返回值
+
+函数并非总是直接显示输出，它还可以处理一些数据，并返回一个或一组值。函数返回的值称为返回值。
+上述的描述后续在学numpy和pandas会理解的非常清楚
+
+**返回简单的值**
+
+```python
+def get_formatted_name(first_name, last_name): 
+     full_name = f"{first_name} {last_name}" 
+     return full_name.title() 
+
+musician = get_formatted_name('jimi', 'hendrix') 
+print(musician)
+
+#输出：
+Jimi Hendrix
+```
+
+> [!NOTE]
+>
+> ```python
+> #原本只需编写下面的代码就可以输出这个标准格式的姓名
+> print("Jimi Hendrix")
+> 
+> 似乎是不是觉得很复杂
+> 
+> 但其实并不是
+> 
+> 如果需要存储大量名和姓的大型程序中。像get_formatted_name()这样的函数非常有⽤。你可以分别存储名和
+> 姓，每当需要显示姓名时就调用这个函数。
+> ```
+
+**让实参变成可选的**
+
+假设要扩展get_formatted_name() 函数，使其除了名和姓之外还可以处理中间名。为此，可将其修改成类似这样：
+
+```python
+def get_formatted_name(first_name, middle_name, last_name): 
+    full_name = f"{first_name} {middle_name} {last_name}" 
+    return full_name.title() 
+
+musician = get_formatted_name('john', 'lee', 'hooker') 
+print(musician)
+```
+
+然而，并非所有人都有中间名。如果调用这个函数时只提供了名和姓，它将不能正确地运行。为让中间名变成可选的，可给形参middle_name指定默认值（空字符串），在用户不提供中间名时不使用这个形参。
+
+```python
+def get_formatted_name(first_name, last_name, middle_name=''):
+    if middle_name:
+        full_name = f"{first_name} {middle_name} {last_name}"
+    else:
+        full_name = f"{first_name} {last_name}"
+
+    return full_name.title()
+
+musician = get_formatted_name('jimi', 'hendrix')
+print(musician)
+musician = get_formatted_name('john', 'hooker', 'lee')
+print(musician)
+
+#输出：
+Jimi Hendrix 
+John Lee Hooker
+
+#这个修改后的版本不仅适用于只有名和姓的⼈，也适用于还有中间名的⼈
+```
+
+**返回字典**
+
+函数可返回任何类型的值，包括列表和字典等较为复杂的数据结构。
+
+```python
+def build_person(first_name, last_name): 
+     person = {'first': first_name, 'last': last_name} 
+     return person 
+
+musician = build_person('jimi', 'hendrix') 
+print(musician)
+
+#输出：{'first': 'jimi', 'last': 'hendrix'}
+```
+
+这个函数接受简单的⽂本信息，并将其放在一个更合适的数据结构中，让你不仅能打印这些信息，还能以其他方式处理它们。当前，字符串'jimi'和'hendrix'分别被标记为名和姓。你可以轻松地扩展这个函数，使其接受可选值，如中间名、年龄、职业或其他任何要存储的信息。例如，下面修改能让你存储年龄：
+
+```python
+def build_person(first_name, last_name, age=None):  
+    person = {'first': first_name, 'last': last_name} 
+	if age: 
+		person['age'] = age 
+    return person
+ 
+musician = build_person('jimi', 'hendrix', age=27) 
+print(musician) 
+```
+
+在函数定义中，新增了⼀个可选形参age ，其默认值被设置为特殊值None（表示变量没有值）。可将None视为占位值。在条件测试中，None相当于False。如果函数调用中包含形参age的值，这个值将被存储到字典中。
+
+**结合使用函数和while循环**
+
+```python
+def get_formatted_name(first_name, last_name): 
+     full_name = f"{first_name} {last_name}" 
+     return full_name.title() 
+
+while True: 
+	print("\nPlease tell me your name:") 
+	f_name = input("First name: ") 
+	l_name = input("Last name: ") 
+ 
+	formatted_name = get_formatted_name(f_name, l_name) 
+	print(f"\nHello, {formatted_name}!")
+```
+
+> [!WARNING]
+>
+> **这个就是非常经典的死循环**
+> 原因在于没有**退出条件**
+
+我们要让用户能够尽可能容易地退出，因此在每次提示用户输入时，都应提供退出途径。使用break语句可以在每次提示用户输入时提供退出循环的简单途径：
+
+```python
+def get_formatted_name(first_name, last_name): 
+     full_name = f"{first_name} {last_name}" 
+     return full_name.title() 
+
+while True: 
+    print("\nPlease tell me your name:") 
+    print("(enter 'q' at any time to quit)") 
+ 
+    f_name = input("First name: ") 
+    if f_name == 'q': 
+        break 
+ 
+    l_name = input("Last name: ") 
+    if l_name == 'q': 
+        break 
+ 
+    formatted_name = get_formatted_name(f_name, l_name) 
+    print(f"\nHello, {formatted_name}!") 
+
+#输出：
+
+Please tell me your name: 
+(enter 'q' at any time to quit) 
+First name: eric #输入
+Last name: matthes #输入
+ 
+Hello, Eric Matthes! #输出
+ 
+Please tell me your name: 
+(enter 'q' at any time to quit) 
+First name: q #输入
+```
+
+#### 8.4 传递列表
+
+你经常会发现，向函数传递列表很有用，可能是名字列表、数值列表或更复杂的对象列表（如字典）。将列表传递给函数后，函数就能直接访问其内容。
+
+```python
+def greet_users(names): 
+	for name in names: 
+    	msg = f"Hello, {name.title()}!" 
+        print(msg) 
+
+usernames = ['hannah', 'ty', 'margot'] 
+greet_users(usernames)
+
+#输出：
+Hello, Hannah! 
+Hello, Ty! 
+Hello, Margot!
+```
+
+**在函数中修改列表**
+
+将列表传递给函数后，函数就可以对其进行修改了。在函数中对这个列表所做的任何修改都是永久的，这让你能够**高效地处理大量数据**。（在做数据分析的时候非常重要）
+
+
+来看一家为用户提交的设计制作3D打印模型的公司。需要打印的设计事先存储在一个列表中，打印后将被移到另一个列表中。下面是在不使用函数的情况下模拟这个过程的代码：
+
+```python
+#首先创建一个列表，其中包含一些要打印的设计
+unprinted_designs = ['phone case', 'robot pendant', 'dodecahedron'] 
+completed_models = [] 
+
+#模拟打印每个设计，直到没有未打印的设计为止
+#打印每个设计后，都将其移到列表completed_models中
+ 
+while unprinted_designs: 
+    current_design = unprinted_designs.pop() 
+    print(f"Printing model: {current_design}") 
+    completed_models.append(current_design) 
+
+#显示打印好的所有模型
+print("\nThe following models have been printed:") 
+for completed_model in completed_models: 
+    print(completed_model)
+
+#输出：
+Printing model: dodecahedron 
+Printing model: robot pendant 
+Printing model: phone case 
+
+The following models have been printed: 
+dodecahedron 
+robot pendant 
+phone case
+```
+
+接下来就是**使用函数**来实现
+
+```python
+def print_models(unprinted_designs, completed_models): 
+      """
+      模拟打印每个设计，直到没有未打印的设计为止打印每个设计后，都将其移到列表completed_models中
+      """ 
+      while unprinted_designs: 
+          current_design = unprinted_designs.pop() 
+          print(f"Printing model: {current_design}") 
+          completed_models.append(current_design) 
+ 
+def show_completed_models(completed_models): 
+	"""显示打印好的所有模型""" 
+	print("\nThe following models have been printed:") 
+    for completed_model in completed_models: 
+    	print(completed_model) 
+ 
+unprinted_designs = ['phone case', 'robot pendant', 'dodecahedron'] 
+completed_models = [] 
+ 
+print_models(unprinted_designs, completed_models) 
+show_completed_models(completed_models)
+```
+
+由于已经定义了两个函数，因此只需要调用它们并传入正确的实参即可。我们调用print_models()并向它传递两个列表。像预期的⼀样，print_models()模拟了打印设计的过程。接下来，调用show_completed_models() ，并将打印好的模型列表传递给它，让它能够指出打印了哪些模型。
+
+这就是我认为**函数**比较重要的第二个作用------能让阅读这些代码的人也能**一目了然的看出这段代码在干啥**，因为有函数名、传参等信息能够推断出来
+
+**禁止函数修改列表**
+
+```python
+print_models(unprinted_designs[:], completed_models)
+```
+
+这个语句非常的熟悉 之前在列表那章里面有涉及unprinted_designs[:]代表着列表unprinted_designs的副本，因此将其当作实参传入函数，不会对原列表进行改动，只会对副本进行改动。
+
+> [!TIP]
+>
+> 虽然向函数传递列表的副本可保留原始列表的内容，但除非**有充分的理由**，否则还是应该将原始列表传递给函数。这是因为，让函数使用现成的列表可**避免花时间和内存创建副本**，从而提高效率，在处理大型列表时尤其如此。
+
+#### 8.5 传递任意数量的实参
+
+有时候，你预先不知道函数需要接受多少个实参，好在Python允许函数从调用语句中收集任意数量的实参。
+下面的函数只有一个形参 *toppings ，不管调用语句提供了多少实参，这个形参都会将其收入囊中
+
+```python
+def make_pizza(*toppings): 
+    """打印顾客点的所有配料""" 
+    print(toppings) 
+
+make_pizza('pepperoni') 
+make_pizza('mushrooms', 'green peppers', 'extra cheese')
+
+#输出：
+('pepperoni',) 
+('mushrooms', 'green peppers', 'extra cheese')
+```
+
+形参名*toppings中的星号让Python创建一个名为toppings的元组，该元组包含函数收到的所有值。函数体内的函数调用print()生成的输出证明，Python既能处理使用一个值调用函数的情形，也能处理使用三个值调用函数的情形。它以类似的方式处理不同的调用。
+
+```python
+#遍历配料列表
+def make_pizza(*toppings): 
+	"""概述要制作的比萨""" 
+	print("\nMaking a pizza with the following toppings:") 
+	for topping in toppings: 
+		print(f"- {topping}") 
+make_pizza('pepperoni') 
+make_pizza('mushrooms', 'green peppers', 'extra cheese') 
+
+#输出：
+Making a pizza with the following toppings: 
+- pepperoni 
+
+Making a pizza with the following toppings: 
+- mushrooms 
+- green peppers 
+- extra cheese
+```
+
+**结合使用位置实参和任意数量的实参**
+
+如果要让函数接受不同类型的实参，必须在函数定义中将接纳任意数量实参的形参放在最后。Python先匹配位置实参和关键字实参，再将余下的实参都收集到最后一个形参中。
+
+```python
+def make_pizza(size, *toppings): 
+    """概述要制作的比萨""" 
+	print(f"\nMaking a {size}-inch pizza with the following toppings:") 
+    for topping in toppings: 
+        print(f"- {topping}") 
+
+make_pizza(16, 'pepperoni') 
+make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese') 
+
+#输出：
+Making a 16-inch pizza with the following toppings: 
+- pepperoni
+
+Making a 12-inch pizza with the following toppings: 
+- mushrooms 
+- green peppers 
+- extra cheese 
+```
+
+基于上述函数定义，Python将收到的第一个值赋给形参size，将其他所有的值都存储在元组toppings中。在函数调用中，首先指定表示比萨尺寸的实参，再根据需要指定任意数量的配料。
+
+**使用任意数量的关键字实参**
+有时候，你需要接受任意数量的实参，但预先不知道传递给函数的会是什么样的信息。在这种情况下，可将函数编写成能够接受任意数量的键值对——调用语句提供了多少就接受多少。
+
+```python
+def build_profile(first, last, **user_info): 
+
+	"""创建一个字典，其中包含我们知道的有关用户的一切""" 
+	user_info['first_name'] = first 
+	user_info['last_name'] = last 
+	return user_info 
+
+user_profile = build_profile('albert', 'einstein', 
+                              location='princeton', 
+                              field='physics') 
+print(user_profile)
+
+#输出：
+{'location': 'princeton', 'field': 'physics', 
+'first_name': 'albert', 'last_name': 'einstein'}
+```
+
+build_profile()函数的定义要求提供名和姓，同时允许根据需要提供任意数量的名值对。形参**user_info中的两个星号让Python创建一个名为user_info的字典，该字典包含函数收到的其他所有名值对。
+
+> [!NOTE]
+>
+> **总结**
+> *toppings以元组形式接收任意数量的实参 而**user_info以字典形式接收
+
+#### 8.6 将函数存储在模块中
+
+使用函数的优点之一是可将代码块与主程序分离。通过给函数指定描述性名称，能让程序容易理解得多。你还可以更进一步，将函数存储在称为模块的独立文件中，再将模块导入（import）主程序。import语句可让你在 当前运行的程序文件中使用模块中的代码。
+
+**导入整个模块**
+
+要让函数是可导入的，得先创建模块。模块是扩展名为.py的文件，包含要导入程序的代码。下面来创建一个包含make_pizza()函数的模块。
+
+```python
+#pizza.py
+def make_pizza(size, *toppings): 
+    print(f"\nMaking a {size}-inch pizza with the following toppings:") 
+    for topping in toppings: 
+        print(f"- {topping}")
+```
+
+接下来，在pizza.py所在的目录中创建一个名为making_pizzas.py的文件。这个文件先导入刚创建的模块，再调用make_pizza()两次：
+
+```python
+import pizza 
+
+pizza.make_pizza(16, 'pepperoni') 
+pizza.make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+
+#输出：
+Making a 16-inch pizza with the following toppings: 
+- pepperoni
+
+Making a 12-inch pizza with the following toppings: 
+- mushrooms 
+- green peppers 
+- extra cheese 
+```
+
+这是一种导入方法：只需编写一条import语句并在其中指定模块名，就可在程序中使用该模块中的所有函数。如果使用这种import语句导入了名为module_name.py的整个模块，就可使用下面的语法来使用其中的任意一个函数：
+
+```python
+module_name.function_name() 
+```
+
+**导入特定的函数**
+
+还可以只导入模块中的特定函数，语法如下：
+
+```python
+from module_name import function_name
+```
+
+用逗号分隔函数名，可根据需要从模块中导入任意数量的函数：
+
+```python
+from module_name import function_0, function_1, function_2 
+```
+
+对于前面的making_pizzas.py示例，如果只想导入要使用的函数，代码将类似于下面这样：
+
+```python
+from pizza import make_pizza 
+
+make_pizza(16, 'pepperoni') 
+make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
+
+如果使用这种语法，在调用函数时则无须使用句点。由于在import语句中显式地导入了make_pizza()函数，因此在调用时只需指定其名称即可。
+
+**使用as给函数指定别名**
+
+如果要导入的函数的名称太长或者可能与程序中既有的名称冲突，可指定简短而独一无二的别名（alias）：函数的另一个名称，类似于外号。
+
+```python
+#下面给make_pizza()函数指定了别名mp()
+
+from pizza import make_pizza as mp 
+
+mp(16, 'pepperoni') 
+mp(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
+
+上面的import语句将函数make_pizza()重命名为mp()。在这个程序中，每当需要调用make_pizza()时，都可将其简写成mp()。Python将运行make_pizza()中的代码，同时避免与程序可能包含的make_pizza()函数混淆。
+
+指定别名的通用语法如下：
+
+```python
+from module_name import function_name as fn 
+```
+
+**使用as给模块指定别名**
+
+还可以给模块指定别名。通过给模块指定简短的别名（如给pizza模块指定别名p），你能够更轻松地调用模块中的函数。
+
+```python
+import pizza as p 
+
+p.make_pizza(16, 'pepperoni') 
+p.make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
+
+> [!NOTE]
+>
+> 之后学**numpy**会用到
+> import numpy as np一般都是这么写的
+
+给模块指定别名的通用语法如下：
+
+```python
+import module_name as mn 
+```
+
+**导入模块中的所有函数**
+
+使用星号（*）运算符可让Python导入模块中的所有函数：
+
+```python
+from pizza import * 
+
+make_pizza(16, 'pepperoni') 
+make_pizza(12, 'mushrooms', 'green peppers', 'extra cheese')
+```
+
+import语句中的星号让Python将模块pizza中的每个函数都复制到这个程序文件中。由于导入了每个函数，可通过名称来调用每个函数，无须使用点号（dot notation）。然而，在使用并非自己编写的大型模块时，最好不要使用这种导入方法，因为如果模块中有函数的名称与当前项目中既有的名称相同，可能导致意想不到的结果：Python可能会因为遇到多个名称相同的函数或变量而覆盖函数，而不是分别导入所有的函数。
+
+> [!CAUTION]
+>
+> **不要用这种办法 这里只是介绍**
+
+#### 8.7 函数编写指南
+
+在编写函数时，需要牢记几个细节。应给函数指定描述性名称，且只使用小写字母和下划线。描述性名称可帮助你和别人明白代码想要做什么。
+
+每个函数都应包含简要阐述其功能的注释。该注释应紧跟在函数定义后面，并采用文档字符串的格式。这样，其他程序员只需阅读文档字符串中的描述就能够使用它：他们完全可以相信代码会如描述的那样运行，并且只要知道函数名、需要的实参以及返回值的类型，就能在自己的程序中使用它。
+
+> [!TIP]
+>
+> **1.在给形参指定默认值时，等号两边不要有空格：**
+>
+> ```python
+> def function_name(parameter_0, parameter_1='default value')
+> ```
+>
+> **2.函数调用中的关键字实参也应遵循这种约定：**
+>
+> ```python
+> function_name(value_0, parameter_1='value') 
+> ```
+>
+> **3.PEP8建议代码行的长度不要超过79个字符。这样，只要编辑器窗口适中，就能看到整行代码。如果形参很多，导致函数定义的长度超过了79个字符，可在函数定义中输入左括号后按回车键，并在下一行连按两次制表符键，从而将形参列表和只缩进一层的函数体区分开来。**
+> 大多数编辑器会自动对齐后续参数列表行，使其缩进程度与你给第⼀个参数列表行指定的缩进程度相同
+>
+> **4.所有的import语句都应放在文件开头**
+>
+> **5.如果程序或模块包含多个函数，可使用两个空行将相邻的函数分开。这样将更容易知道前一个函数到什么地方结束，下一个函数从什么地方开始**
+

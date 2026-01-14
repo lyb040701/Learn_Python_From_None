@@ -45,16 +45,16 @@
 #     print(num)
 
 #猜数字游戏
-import random
-number = random.randint(1, 100)
-Flag = True
-while Flag:
-    your_number = int(input("请输入你的数字:"))
-    if your_number == number:
-        Flag = False
-        break
-    elif your_number > number:
-        print("太大了嗷!")
-    else:
-        print("太小了嗷!")
-print("恭喜你猜对了!")
+# import random
+# number = random.randint(1, 100)
+# Flag = True
+# while Flag:
+#     your_number = int(input("请输入你的数字:"))
+#     if your_number == number:
+#         Flag = False
+#         break
+#     elif your_number > number:
+#         print("太大了嗷!")
+#     else:
+#         print("太小了嗷!")
+# print("恭喜你猜对了!")
